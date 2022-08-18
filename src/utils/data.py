@@ -11,7 +11,7 @@ def get_mnist_loader(batch_size):
     transform = transforms.Compose([transforms.ToTensor(),
                                     transforms.Normalize((0.1307,), (0.3081,)),
                                     transforms.Grayscale(3),
-                                    transforms.Resize((3, 3),transforms.InterpolationMode.BILINEAR)])
+                                    transforms.Resize((32, 32),transforms.InterpolationMode.BILINEAR)])
 
     mnist_train_loader = DataLoader(
         datasets.MNIST(data_path,
