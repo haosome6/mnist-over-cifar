@@ -66,19 +66,19 @@ class Discriminator(nn.Module):
         )
 
         self.net_source = nn.Sequential(
-            nn.Linear(3*3*512, 1),
+            nn.Linear(4*4*512, 1),
             nn.Sigmoid()
         )
 
         self.net_class = nn.Sequential(
-            nn.Linear(3*3*512, num_class_label),
+            nn.Linear(4*4*512, num_class_label),
             nn.Softmax()
         )
     
     def forward(self, x):
         x = self.net(x)
-        x = x.view(-1, 3*3*512)
-        source = self.net_source(x)
+        x = x.view(-1, 4*4*512)
+        source = self.net_source(x).squeeze(1)
         class_label = self.net_class(x)
 
         return source, class_label

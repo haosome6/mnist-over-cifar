@@ -118,18 +118,18 @@ def gan_training_loop(args):
             G_loss.backward()
             g_optimizer.step()
 
-            # TODO: add losses
-            # losses['']
+        # TODO: add losses
+        # losses['']
 
-            # result
-            if epoch % args.log_step == 0:
-                # print("Epoch--[{} / {}], Loss_Discriminator--[{}], Loss_Generator--[{}],Accuracy--[{}]".format(epoch, args.num_epochs, error_fake, error_gen,accuracy))
-                print('Iteration [{:4d}/{:4d}] | D_real_loss: {:6.4f} | D_fake_loss: {:6.4f} | G_loss: {:6.4f}'.format(epoch, args.num_epochs, D_real_loss.item(), D_fake_loss.item(), G_loss.item()))
-                constructed = G(eval_noise)
-                torchvision.utils.save_image(
-                    constructed.data,
-                    '%s/results_epoch_%03d.png' % ('images/', epoch)
-                )
+        # result
+        if epoch % args.log_step == 0:
+            # print("Epoch--[{} / {}], Loss_Discriminator--[{}], Loss_Generator--[{}],Accuracy--[{}]".format(epoch, args.num_epochs, error_fake, error_gen,accuracy))
+            print('Iteration [{:4d}/{:4d}] | D_real_loss: {:6.4f} | D_fake_loss: {:6.4f} | G_loss: {:6.4f}'.format(epoch, args.num_epochs, D_real_loss.item(), D_fake_loss.item(), G_loss.item()))
+            constructed = G(eval_noise)
+            torchvision.utils.save_image(
+                constructed.data,
+                '%s/results_epoch_%03d.png' % ('results', epoch)
+            )
 
 
 
