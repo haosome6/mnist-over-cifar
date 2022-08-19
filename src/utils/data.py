@@ -9,8 +9,9 @@ def get_mnist_loader(batch_size):
     data_path = os.path.join(dirname, '../../data')
 
     transform = transforms.Compose([transforms.ToTensor(),
-                                    transforms.Normalize((0.1307,), (0.3081,)),
-                                    transforms.Grayscale(3),
+                                    # transforms.Normalize((0.1307,), (0.3081,)),
+                                    # transforms.Grayscale(3),
+                                    transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
                                     transforms.Resize((32, 32),transforms.InterpolationMode.BILINEAR)])
 
     mnist_train_loader = DataLoader(
