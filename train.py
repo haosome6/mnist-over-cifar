@@ -1,6 +1,7 @@
 import torch, torchvision
 from torch import nn, optim
-from models.model import Generator, Discriminator
+from src.models.model import Generator, Discriminator
+from src.utils.data import get_mnist_loader, get_cifar_loader
 import numpy as np
 
 
@@ -26,7 +27,7 @@ def compute_acc(preds, labels):
 	acc = float(correct) / float(len(labels.data)) * 100.0
 	return acc
 
-def gan_training_loop(args, mnist_train_loader, cifar_train_loader):
+def gan_training_loop(args):
     # eval_noise = torch.FloatTensor(args.batch_size, args.g_input_dim, 1, 1).normal_(0, 1)
 
     eval_noise = torch.FloatTensor(args.batch_size, args.g_input_dim, 1, 1).normal_(0, 1)
@@ -60,6 +61,9 @@ def gan_training_loop(args, mnist_train_loader, cifar_train_loader):
     real_label.fill_(1)
     fake_label = torch.FloatTensor(args.batch_size).cuda()
     fake_label.fill_(0)
+
+    mnist_train_loader, mnist_test_loader = get_mnist_loader(args.batch_size)
+    cifar_train_loader, cifar_test_loader = get_cifar_loader(args.batch_size)
 
     for epoch in range(args.num_epochs):
 
@@ -138,3 +142,5 @@ args_dict = {
     'log_step': 200
 }
 args.update(args_dict)
+
+gan_training_loop(args)
