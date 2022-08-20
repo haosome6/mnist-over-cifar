@@ -20,7 +20,8 @@ def get_mnist_loader(batch_size):
                        download=True,
                        transform=transform),
         batch_size=batch_size,
-        shuffle=True)
+        shuffle=True,
+        drop_last=True)
 
     mnist_test_loader = DataLoader(
         datasets.MNIST(data_path,
@@ -28,7 +29,8 @@ def get_mnist_loader(batch_size):
                        download=True,
                        transform=transform),
         batch_size=batch_size,
-        shuffle=True)
+        shuffle=True,
+        drop_last=True)
 
     return mnist_train_loader, mnist_test_loader
 
@@ -45,7 +47,8 @@ def get_cifar_loader(batch_size):
                          download=True,
                          transform=transform),
         batch_size=batch_size,
-        shuffle=True)
+        shuffle=True,
+        drop_last=True)
 
     cifar_test_loader = DataLoader(
         datasets.CIFAR10(data_path,
@@ -53,6 +56,7 @@ def get_cifar_loader(batch_size):
                          download=True,
                          transform=transform),
         batch_size=batch_size,
-        shuffle=True)
+        shuffle=True,
+        drop_last=True)
     
     return cifar_train_loader, cifar_test_loader
