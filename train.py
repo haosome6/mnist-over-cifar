@@ -28,6 +28,7 @@ def compute_acc(preds, labels):
 	return acc
 
 def gan_training_loop(args):
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
     # eval_noise = torch.FloatTensor(args.batch_size, args.g_input_dim, 1, 1).normal_(0, 1)
 
     eval_noise = torch.FloatTensor(args.batch_size, args.g_input_dim, 1, 1).normal_(0, 1)
@@ -38,7 +39,7 @@ def gan_training_loop(args):
     eval_noise_[np.arange(args.batch_size), :10] = eval_onehot[np.arange(args.batch_size)]
     eval_noise_ = (torch.from_numpy(eval_noise_))
     eval_noise.data.copy_(eval_noise_.view(args.batch_size, args.g_input_dim, 1, 1))
-    eval_noise=eval_noise.cuda()
+    eval_noise = eval_noise.to(device)
 
 
     # create generator and discriminator
@@ -57,9 +58,9 @@ def gan_training_loop(args):
     source_loss = nn.BCELoss()
     class_loss = nn.NLLLoss()
 
-    real_label = torch.FloatTensor(args.batch_size).cuda()
+    real_label = torch.FloatTensor(args.batch_size).to(device)
     real_label.fill_(1)
-    fake_label = torch.FloatTensor(args.batch_size).cuda()
+    fake_label = torch.FloatTensor(args.batch_size).to(device)
     fake_label.fill_(0)
 
     mnist_train_loader, mnist_test_loader = get_mnist_loader(args.batch_size)
@@ -80,7 +81,7 @@ def gan_training_loop(args):
             d_optimizer.zero_grad()
 
             imgs = torch.where(mnist_imgs != 0, mnist_imgs, cifar_imgs) # put mnist over cifar
-            imgs, mnist_labels = imgs.cuda(), mnist_labels.cuda()
+            imgs, mnist_labels = imgs.to(device), mnist_labels.to(device)
 
             predicted_source, predicted_class = D(imgs)
             source_error = source_loss(predicted_source, real_label)
@@ -96,9 +97,9 @@ def gan_training_loop(args):
             G_labels = np.random.randint(0, 10, args.batch_size)
 
             noise = ((torch.from_numpy(noise)).float())
-            noise = noise.cuda()
+            noise = noise.to(device)
             G_labels = ((torch.from_numpy(G_labels)).long())
-            G_labels = G_labels.cuda()
+            G_labels = G_labels.to(device)
 
             G_imgs = G(noise)
 
