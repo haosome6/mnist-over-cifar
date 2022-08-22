@@ -66,7 +66,7 @@ def gan_training_loop(args):
     mnist_train_loader, mnist_test_loader = get_mnist_loader(args.batch_size)
     cifar_train_loader, cifar_test_loader = get_cifar_loader(args.batch_size)
 
-    for epoch in range(args.num_epochs):
+    for epoch in range(args.num_epochs + 1):
 
         # enumerate through dataset with more instances(mnist) in outer loop
         cifar_train_loader_iter = iter(cifar_train_loader)
@@ -129,7 +129,7 @@ def gan_training_loop(args):
             constructed = G(eval_noise)
             torchvision.utils.save_image(
                 constructed.data,
-                '%s/results_epoch_%03d.png' % ('results', epoch)
+                '%s/results_epoch_%04d.png' % ('results', epoch)
             )
 
 
