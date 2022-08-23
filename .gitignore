@@ -2,6 +2,7 @@
 .idea/
 .vs/
 .vscode/
+*.out
 
 data
 __pycache__/
