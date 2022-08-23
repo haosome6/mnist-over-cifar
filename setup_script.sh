@@ -1,1 +1,1 @@
-mkdir results
+mkdir -p results
