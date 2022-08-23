@@ -3,7 +3,7 @@ import torch
 import torchvision
 from torch.utils.data import DataLoader
 from torchvision import transforms, datasets
-from custom_dataset import MNISTOverCifar
+from .custom_dataset import MNISTOverCifar
 
 def get_mnist_loader(batch_size):
     dirname = os.path.dirname(__file__)

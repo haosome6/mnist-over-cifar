@@ -1,6 +1,7 @@
 import torch
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
+from PIL import Image
 
 
 class MNISTOverCifar(Dataset):
@@ -27,8 +28,9 @@ class MNISTOverCifar(Dataset):
         img = torch.where(mnist_img != 0, mnist_img, cifar_img)
         label = mnist_label
 
+        img = transforms.ToPILImage()(img)
         if self.transform:
             img = self.transform(img)
         
-        sample = {'image': img, 'label': label}
-        return sample
+        # sample = {'image': img, 'label': label}
+        return img, label
