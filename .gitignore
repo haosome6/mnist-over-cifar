@@ -4,6 +4,6 @@
 .vscode/
 *.out
 
-data
+pytorch_data
 __pycache__/
 results

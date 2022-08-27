@@ -7,7 +7,7 @@ from .custom_dataset import MNISTOverCifar
 
 def get_mnist_loader(batch_size):
     dirname = os.path.dirname(__file__)
-    data_path = os.path.join(dirname, '../../data')
+    data_path = os.path.join(dirname, '../../data/pytorch_data')
 
     transform = transforms.Compose([transforms.ToTensor(),
                                     # transforms.Normalize((0.1307,), (0.3081,)),
@@ -37,7 +37,7 @@ def get_mnist_loader(batch_size):
 
 def get_cifar_loader(batch_size):
     dirname = os.path.dirname(__file__)
-    data_path = os.path.join(dirname, '../../data')
+    data_path = os.path.join(dirname, '../../data/pytorch_data')
 
     transform =transforms.Compose([transforms.ToTensor(),
                                    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
@@ -64,7 +64,7 @@ def get_cifar_loader(batch_size):
 
 def get_mnist_over_cifar_loader(batch_size):
     dirname = os.path.dirname(__file__)
-    data_path = os.path.join(dirname, '../../data')
+    data_path = os.path.join(dirname, '../../data/pytorch_data')
 
     transform = transforms.Compose([transforms.ToTensor()])
 
