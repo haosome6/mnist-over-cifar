@@ -63,25 +63,16 @@ def get_cifar_loader(batch_size):
     return cifar_train_loader, cifar_test_loader
 
 def get_mnist_over_cifar_loader(batch_size):
-    dirname = os.path.dirname(__file__)
-    data_path = os.path.join(dirname, '../../data/pytorch_data')
-
     transform = transforms.Compose([transforms.ToTensor()])
 
     mnist_over_cifar_train_loader = DataLoader(
-        MNISTOverCifar(data_path,
-                       train=True,
-                       download=True,
-                       transform=transform),
+        MNISTOverCifar(train=True, transform=transform),
         batch_size=batch_size,
         shuffle=True,
         drop_last=True)
     
     mnist_over_cifar_test_loader = DataLoader(
-        MNISTOverCifar(data_path,
-                       train=False,
-                       download=True,
-                       transform=transform),
+        MNISTOverCifar(train=True, transform=transform),
         batch_size=batch_size,
         shuffle=True,
         drop_last=True)
