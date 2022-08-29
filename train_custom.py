@@ -76,6 +76,8 @@ def gan_training_loop(args):
 
             predicted_source, predicted_class = D(imgs)
             source_error = source_loss(predicted_source, real_label)
+            # print(predicted_class)
+            # print(mnist_labels)
             class_error = class_loss(predicted_class, mnist_labels)
             D_real_loss = source_error + class_error
             D_real_loss.backward()

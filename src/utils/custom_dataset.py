@@ -1,3 +1,4 @@
+import os
 import torch
 from torch.utils.data import Dataset
 from torchvision import datasets, transforms
@@ -14,7 +15,9 @@ class MNISTOverCifar(Dataset):
         # self.mnist = datasets.MNIST(root, train=train, download=download)
         # self.cifar = datasets.CIFAR10(root, train=train, download=download)
 
-        mnist = loadmat('../../data/original_data/mnist-original.mat')
+        dirname = os.path.dirname(__file__)
+        mnist_path = os.path.join(dirname, '../../data/original_data/mnist-original.mat')
+        mnist = loadmat(mnist_path)
         self.mnist_data, self.mnist_label = mnist['data'].T, mnist['label'][0]
 
         self.cifar_data = None
@@ -23,7 +26,8 @@ class MNISTOverCifar(Dataset):
             self.mnist_data, self.mnist_label = self.mnist_data[:50000,:], self.mnist_label[:50000]
             # cifar
             for i in range(1, 6):
-                with open('../../data/original_data/cifar-10-batches-py/data_batch_{}'.format(i), 'rb') as f:
+                cifar_path = os.path.join(dirname, '../../data/original_data/cifar-10-batches-py/data_batch_{}'.format(i))
+                with open(cifar_path, 'rb') as f:
                     dict = pickle.load(f, encoding='bytes')
                 if self.cifar_data is None:
                     self.cifar_data = dict[b'data']
@@ -33,7 +37,8 @@ class MNISTOverCifar(Dataset):
             # mnist
             self.mnist_data, self.mnist_label = self.mnist_data[50000:60000,:], self.mnist_label[50000:60000]
             # cifar
-            with open('../../data/original_data/cifar-10-batches-py/test_batch', 'rb') as f:
+            cifar_path = os.path.join(dirname, '../../data/original_data/cifar-10-batches-py/test_batch')
+            with open(cifar_path, 'rb') as f:
                 dict = pickle.load(f, encoding='bytes')
             self.cifar_data = dict[b'data']
 
@@ -53,7 +58,8 @@ class MNISTOverCifar(Dataset):
         mnist_img = transforms.Lambda(lambda x: x.repeat(3, 1, 1))(mnist_img)
 
         img = torch.where(mnist_img != 0, mnist_img, cifar_img)
-        label = mnist_label
+        label = mnist_label.long()
+        # print(label)
 
         img = transforms.ToPILImage()(img)
         if self.transform:
