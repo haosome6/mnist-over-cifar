@@ -35,7 +35,7 @@ class MNISTOverCifar(Dataset):
                     self.cifar_data = np.vstack((self.cifar_data, dict[b'data']))
         else:
             # mnist
-            self.mnist_data, self.mnist_label = self.mnist_data[50000:60000,:], self.mnist_label[50000:60000]
+            self.mnist_data, self.mnist_label = self.mnist_data[50000:,:], self.mnist_label[50000:]
             # cifar
             cifar_path = os.path.join(dirname, '../../data/original_data/cifar-10-batches-py/test_batch')
             with open(cifar_path, 'rb') as f:
